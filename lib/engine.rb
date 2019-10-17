@@ -56,4 +56,9 @@ class Board
       print "#{@board_status[i].state.nil? ? i : @board_status[i].state} #{(i % 3).zero? && !i.zero? ? "\n" : ''}"
     end
   end
+
+  def input_check(user_input)
+    user_input = user_input.to_i
+    'Input Error' unless (1..9).include?(user_input) && @board_status[user_input].nil? && user_input.zero?
+  end
 end

@@ -12,14 +12,15 @@ while tic_tac_toe.state
   board.print_board
   p 'Enter cell number where you want to place X'
   user_input = gets.chomp.to_i
-
+  puts board.input_check(user_input)
   board.change_cell_cross(user_input)
-
+  
   board.print_board
 
   p 'Enter cell number where you want to place O'
 
-  user_input = gets.chomp.to_i
+  user_input = gets.chomp
+  puts board.input_check(user_input)
 
   board.change_cell_o(user_input)
 
