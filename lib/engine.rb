@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Game
   attr_reader :state
 
@@ -17,10 +19,6 @@ class Cell
     @state = nil
   end
 
-  def state
-    @state
-  end
-
   def make_cross
     @state = 'X'
   end
@@ -33,29 +31,29 @@ end
 class Board
   def initialize
     @board_status = {
-        1 => Cell.new,
-        2 => Cell.new,
-        3 => Cell.new,
-        4 => Cell.new,
-        5 => Cell.new,
-        6 => Cell.new,
-        7 => Cell.new,
-        8 => Cell.new,
-        9 => Cell.new
+      1 => Cell.new,
+      2 => Cell.new,
+      3 => Cell.new,
+      4 => Cell.new,
+      5 => Cell.new,
+      6 => Cell.new,
+      7 => Cell.new,
+      8 => Cell.new,
+      9 => Cell.new
     }
   end
 
-  def change_cell_o(i)
-    @board_status[i].make_o
+  def change_cell_o(cell)
+    @board_status[cell].make_o
   end
 
-  def change_cell_cross(i)
-    @board_status[i].make_cross
+  def change_cell_cross(cell)
+    @board_status[cell].make_cross
   end
 
   def print_board
     (1..@board_status.length).each do |i|
-      print "#{@board_status[i].state.nil? ? i : @board_status[i].state} #{i % 3 == 0 && !i.zero? ? "\n" : ''}"
+      print "#{@board_status[i].state.nil? ? i : @board_status[i].state} #{(i % 3).zero? && !i.zero? ? "\n" : ''}"
     end
   end
 end
