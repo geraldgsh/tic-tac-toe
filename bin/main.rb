@@ -12,7 +12,6 @@ class Game
   end
 end
 
-
 class Cell
   attr_reader :state
 
