@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Class for game state
 class Game
   attr_reader :state
 
@@ -7,6 +8,7 @@ class Game
     @state = true
   end
 
+  # state to finish games
   def finish_game
     @state = false
   end
@@ -19,15 +21,18 @@ class Cell
     @state = nil
   end
 
+  # Method to mark X on board
   def make_cross
     @state = 'X'
   end
 
+  # Method to mark O on board
   def make_o
     @state = 'O'
   end
 end
 
+# Tic Tack Toe grid
 class Board
   def initialize
     @board_status = {
