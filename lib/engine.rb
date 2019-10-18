@@ -10,6 +10,26 @@ class Game
   def finish_game
     @state = false
   end
+
+  def line_checker(board, count)
+    vertical = (board[0, 0] == board[1, 0] && board[1, 0] == board[2, 0] ||
+                board[0, 1] == board[1, 1] && board[1, 1] == board[2, 1] ||
+                board[0, 2] == board[1, 2] && board[1, 2] == board[2, 2])
+
+    horizontal = (board[0, 0] == board[0, 1] && board[0, 1] == board[0, 2] ||
+                  board[1, 0] == board[1, 1] && board[1, 1] == board[1, 2] ||
+                  board[2, 0] == board[2, 1] && board[2, 1] == board[2, 2])
+
+    diagonal = (board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2] ||
+                board[0, 2] == board[1, 1] && board[1, 1] == board[0, 2])
+
+    if vertical || horizontal || diagonal
+      finish_game
+      puts 'You won!'
+    elsif count == 8
+      puts 'Draw!'
+    end
+  end
 end
 
 class Cell
@@ -31,6 +51,11 @@ end
 class Board
   def initialize
     @board_status = Array.new(3) { Array.new(3) { Cell.new } }
+    @board_status.each_with_index do |arr, f_index|
+      arr.each_with_index do |elem, s_index|
+        elem = f_index * 3 + s_index + 1
+      end
+    end
   end
 
   def change_cell_o(cell)
@@ -61,7 +86,6 @@ class Board
       puts "\n"
     end
   end
-
   def check_board
     first = 0
     (1..@board_status.length).each do |i|
@@ -77,14 +101,15 @@ class InputManipulator
     @state = false
   end
 
+  # Convert user input to array indices
   def convert_input(input)
-    first = (input % 3).zero? ? (input / 3) -1 : (input / 3)
+    first = (input % 3).zero? ? (input / 3) - 1 : (input / 3)
     second = (input - 1) % 3
     [first, second]
   end
 
+  # Input validator
   def check(user_input, board)
-    @state = false
     @state = true if (1..9).include?(user_input) && board.cell_empty?(convert_input(user_input)) && !user_input.zero?
   end
 
