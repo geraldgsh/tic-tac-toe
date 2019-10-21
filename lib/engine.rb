@@ -5,39 +5,61 @@ class Game
 
   def initialize
     @state = true
+    @counter = 0
+  end
+
+  def increase_counter
+    @counter += 1
   end
 
   def finish_game
     @state = false
   end
 
-  def line_checker(board, count)
-    vertical = (board[0, 0] == board[1, 0] && board[1, 0] == board[2, 0] ||
-                board[0, 1] == board[1, 1] && board[1, 1] == board[2, 1] ||
-                board[0, 2] == board[1, 2] && board[1, 2] == board[2, 2])
+  def line_checker(board, winner)
+    return unless @counter >= 4
 
-    horizontal = (board[0, 0] == board[0, 1] && board[0, 1] == board[0, 2] ||
-                  board[1, 0] == board[1, 1] && board[1, 1] == board[1, 2] ||
-                  board[2, 0] == board[2, 1] && board[2, 1] == board[2, 2])
+    vertical = vertical(board)
 
-    diagonal = (board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2] ||
-                board[0, 2] == board[1, 1] && board[1, 1] == board[0, 2])
+    horizontal = horizontal(board)
+
+    diagonal = diagonal(board)
 
     if vertical || horizontal || diagonal
       finish_game
-      puts 'You won!'
-    elsif count == 8
+      puts "#{winner} won!"
+    elsif @counter == 8
       puts 'Draw!'
     end
+  end
+
+  def vertical(board)
+    board[0][0].state == board[1][0].state && board[1][0].state == board[2][0].state ||
+      board[0][1].state == board[1][1].state && board[1][1].state == board[2][1].state ||
+      board[0][2].state == board[1][2].state && board[1][2].state == board[2][2].state
+  end
+
+  def horizontal(board)
+    board[0][0].state == board[0][1].state && board[0][1].state == board[0][2].state ||
+      board[1][0].state == board[1][1].state && board[1][1].state == board[1][2].state ||
+      board[2][0].state == board[2][1].state && board[2][1].state == board[2][2].state
+  end
+
+  def diagonal(board)
+    board[0][0].state == board[1][1].state && board[1][1].state == board[2][2].state ||
+      board[0][2].state == board[1][1].state && board[1][1].state == board[2][0].state
   end
 end
 
 class Cell
-  attr_reader :state
 
   def initialize
     @state = nil
   end
+
+  attr_reader :state
+
+  attr_writer :state
 
   def make_cross
     @state = 'X'
@@ -49,47 +71,37 @@ class Cell
 end
 
 class Board
+  attr_reader :board_status
+
   def initialize
     @board_status = Array.new(3) { Array.new(3) { Cell.new } }
     @board_status.each_with_index do |arr, f_index|
       arr.each_with_index do |elem, s_index|
-        elem = f_index * 3 + s_index + 1
+        print elem.state
+        elem.state = (f_index * 3 + s_index + 1).to_s
       end
     end
   end
 
   def change_cell_o(cell)
-    p cell
     @board_status[cell[0]][cell[1]].make_o
   end
 
   def change_cell_cross(cell)
-    p cell
     @board_status[cell[0]][cell[1]].make_cross
   end
 
   def cell_empty?(cell)
-    p cell
-    p @board_status[cell[0]][cell[1]].state.nil?
-    @board_status[cell[0]][cell[1]].state.nil?
+    @board_status[cell[0]][cell[1]].state == 'X' && @board_status[cell[0]][cell[1]].state == 'O' ? false : true
   end
 
   def print_board
-    # (0..@board_status.length-1).each do |i|
-    #   print "#{@board_status[i].state.nil? ? i : @board_status[i].state} #{(i % 3).zero? && !i.zero? ? "\n" : ''}"
-    # end
-    @board_status.each_with_index do |arr, f_index|
-      arr.each_with_index do |elem, s_index|
-        print(elem.state.nil? ? f_index * 3 + s_index + 1 : elem.state).to_s
-        print " "
+    @board_status.each do |arr|
+      arr.each do |elem|
+        print elem.state
+        print ' '
       end
       puts "\n"
-    end
-  end
-  def check_board
-    first = 0
-    (1..@board_status.length).each do |i|
-      (i % 3).zero?
     end
   end
 end
