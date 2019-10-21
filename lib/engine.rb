@@ -27,7 +27,7 @@ class Game
 
     if vertical || horizontal || diagonal
       finish_game
-      puts "#{winner} won!"
+      puts "Player #{winner} won!"
     elsif @counter == 8
       puts 'Draw!'
     end
@@ -52,7 +52,6 @@ class Game
 end
 
 class Cell
-
   def initialize
     @state = nil
   end

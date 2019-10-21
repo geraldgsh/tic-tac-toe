@@ -16,7 +16,7 @@ while tic_tac_toe.state
   user_input = false
 
   until checker.state
-    p 'Enter cell number where you want to place X'
+    p 'Enter cell number (1-9) of where you want to place X'
     user_input = gets.chomp.to_i
     checker.check(user_input, board)
   end
@@ -35,7 +35,7 @@ while tic_tac_toe.state
   checker.reset
 
   until checker.state
-    p 'Enter cell number where you want to place O'
+    p 'Enter cell number(1-9) of where you want to place O'
     user_input = gets.chomp.to_i
     checker.check(user_input, board)
   end
@@ -50,5 +50,3 @@ while tic_tac_toe.state
   tic_tac_toe.line_checker(board.board_status, 'O')
   tic_tac_toe.increase_counter
 end
-
-
