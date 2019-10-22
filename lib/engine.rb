@@ -91,7 +91,7 @@ class Board
   end
 
   def cell_empty?(cell)
-    @board_status[cell[0]][cell[1]].state == 'X' && @board_status[cell[0]][cell[1]].state == 'O' ? false : true
+    @board_status[cell[0]][cell[1]].state == 'X' || @board_status[cell[0]][cell[1]].state == 'O' ? false : true
   end
 
   def print_board
