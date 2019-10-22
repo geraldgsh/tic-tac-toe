@@ -3,6 +3,8 @@
 class Game
   attr_reader :state
 
+  attr_reader :counter
+
   def initialize
     @state = true
     @counter = 0
@@ -17,7 +19,7 @@ class Game
   end
 
   def line_checker(board, winner)
-    return unless @counter >= 4
+    return '' unless @counter >= 4
 
     vertical = vertical(board)
 
@@ -27,9 +29,9 @@ class Game
 
     if vertical || horizontal || diagonal
       finish_game
-      puts "Player #{winner} won!"
+      "Player #{winner} won!"
     elsif @counter == 8
-      puts 'Draw!'
+      'Draw!'
     end
   end
 

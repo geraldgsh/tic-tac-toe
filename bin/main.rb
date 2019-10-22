@@ -27,7 +27,7 @@ while tic_tac_toe.state
 
   board.print_board
 
-  tic_tac_toe.line_checker(board.board_status, 'X')
+  print tic_tac_toe.line_checker(board.board_status, 'X')
   tic_tac_toe.increase_counter
 
   break unless tic_tac_toe.state
@@ -47,6 +47,6 @@ while tic_tac_toe.state
   board.change_cell_o(user_input)
 
   board.print_board
-  tic_tac_toe.line_checker(board.board_status, 'O')
+  print tic_tac_toe.line_checker(board.board_status, 'O')
   tic_tac_toe.increase_counter
 end
