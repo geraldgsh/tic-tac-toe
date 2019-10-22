@@ -1,37 +1,52 @@
 #!/usr/bin/env ruby
 require '../lib/engine.rb'
 
-# Class Game instance
 tic_tac_toe = Game.new
 
 p 'Welcome to the Tic-Tac-Toe game'
 
-# Class instance
 board = Board.new
 
-# While game is not over
+checker = InputManipulator.new
+
 while tic_tac_toe.state
-  # Loop for every turn
   p "Here's the board"
   board.print_board
-  p 'Player 1 please enter cell number of where you want to place X'
 
-  # Prompts for user input.
-  # Prompts error if user input character other than number between 1 to 9
-  user_input = gets.chomp.to_i
+  user_input = false
+
+  until checker.state
+    p 'Enter cell number (1-9) of where you want to place X'
+    user_input = gets.chomp.to_i
+    checker.check(user_input, board)
+  end
+
+  user_input = checker.convert_input(user_input)
+
   board.change_cell_cross(user_input)
-  
-  # Print the board after receiving user input
-  board.print_board
-  p 'Player 2 please enter cell number of where you want to place O'
 
-  # Prompts for user input.
-  # Prompts error if user input character other than number between 1 to 9
-  user_input = gets.chomp.to_i
+  board.print_board
+
+  tic_tac_toe.line_checker(board.board_status, 'X')
+  tic_tac_toe.increase_counter
+
+  break unless tic_tac_toe.state
+
+  checker.reset
+
+  until checker.state
+    p 'Enter cell number(1-9) of where you want to place O'
+    user_input = gets.chomp.to_i
+    checker.check(user_input, board)
+  end
+
+  checker.reset
+
+  user_input = checker.convert_input(user_input)
 
   board.change_cell_o(user_input)
-  board.print_board
 
-  # If game is won or draw. Game state because false which ends the game
-  tic_tac_toe.finish_game
+  board.print_board
+  tic_tac_toe.line_checker(board.board_status, 'O')
+  tic_tac_toe.increase_counter
 end
